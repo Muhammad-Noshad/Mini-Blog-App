@@ -1,0 +1,306 @@
+<-- LECTURE 2 -->
+-- CREATE REACT APP --
+npx create name-of-project
+
+-- RUN REACT APP --
+npm run start -> runs start script in Package.json file
+
+-- INSTALL SOMETHING MISSING IN REACT --
+npm install -> looks for anything which is missing and installs it
+
+-- Package.json FILE --
+Contains all the dependencies and scripts
+
+
+
+<-- LECTURE 3 -->
+-- HTMX TO HTML --
+A transpiler Babel converts HTMX into HTML
+
+-- HTMX Vs HTML --
+Biggest difference is:
+ClassName = class -> since class is reserverd keyword in JS
+
+
+
+
+<-- LECTURE 4 -->
+-- DOLLAR STRING IN HTMX --
+<div> Hello, {name}! </div>
+
+The things you can do in JS Dollar string can be done in HTMX {} too!
+
+But we can't output booleans and objects. Numbers, strings and arrays are fine
+
+-- A:HREF --
+Must provide complete website address to href with https://
+
+google.com -> Invalid
+www.google.com -> Invalid
+https://www.google.com -> Valid
+
+<-- LECTURE 5 -->
+-- STATELESS FUNCTIONAL COMPONENT --
+Snippet -> sfc
+Creates a stateless functional component
+
+-- IMPORT STATEMENT --
+Don't need to add .js at the end
+The following works fine
+
+import Navbar from './Navbar'
+
+Don't use brackets like this if default export is specified in the file to be exported
+
+import { Navbar } from './Navbar'
+
+-- RENDERING A COMPONENT --
+Can be done in the following ways
+
+<Navbar /> (Self closing tag) OR <Navbar></Navbar>
+
+
+
+
+<-- LECTURE #6 -->
+-- CSS IN REACT --
+Importing a css file in a component causes everything in that component to inherit those styles regardless if it already has a CSS file applied to it
+
+To counter this we use CSS modules
+
+-- INLINE STYLING --
+<a href="/create" style={{
+          color: 'white',
+          backgroundColor: 'black'
+          }}>New Blog</a>
+
+
+
+
+<-- LECTURE #7 -->
+-- HANDLING EVENTS --
+Only give reference to the function not the function call
+
+onClick={handleClick} -> Correct
+onClick={handleClick()} -> This will call the function right away without waiting for the click event (Incorrect)
+
+-- PASSING AN ARGUMENT --
+Do this:
+
+onClick={() => { handleClick(arg) }}
+
+-- ACCESSING EVENT OBJECT --
+Like this:
+
+onClick={(event) => { handleClick(arg, event) }}
+
+SIDE NOTE: event.target returns the HTML of the element on which the event has occured
+
+
+
+
+<-- LECTURE #8 -->
+-- REACTIVE VARIABLES --
+React re-renders them to show their change
+
+Reactive variables are created by using useState() hook
+
+useState() hook is a function that returns two things:
+1. Variable value
+2. A reference to a setter function
+
+Typically we use array destructuring to attain these values
+
+[variable-name, setter-name] = useState(initial-value); -> initial-value is optional
+
+
+
+
+<-- LECTURE #10 -->
+-- DISPLAYIN A LIST OF CONTENT --
+1. Give each item a unique id 
+2. Use map((item) => (
+  <div className="items" key={ item.id }>
+    // display here
+  </div>
+)) to display each item 
+
+Key attribute is added so that react can track changes on the items of the list independently
+So if one changes react only re-renders only that one not the whole list which is only possible by giving each list item a unique id
+
+Example:
+{ blogs.map((blog) => {
+        return (
+        <div className="blog-preview" key={blog.id}>
+          <h2>{ blog.title }</h2>
+          <p>Written by { blog.author }</p>
+        </div>
+        );
+      }) }
+
+OR we can use a shortcut (without using return keyword)
+{ blogs.map((blog) => (
+        <div className="blog-preview" key={blog.id}>
+          <h2>{ blog.title }</h2>
+          <p>Written by { blog.author }</p>
+        </div>
+        );
+      ) }
+
+
+
+
+<-- LECTURE #11 -->
+-- PASSING PROPS --
+<component-name parameter1-name={parameter1-value} parameter2-name={parameter2-value}... parameterN-name={parameterN-value}>
+
+-- RECEIVING PROPS --
+Create a param with any name inside SFC's ()
+It will be an object containing all the sent values
+Access them using a '.'
+
+THE PROCEDURE IS SAME FOR FUNCTIONS TOO...
+
+
+
+
+<-- LECTURE #14 -->
+-- useEffect HOOK --
+It is a function which runs everytime a component renders
+Mostly use for authentication (SideEffect)
+
+NEVER CHANGE STATE IN USEEFFECT IT WILL CAUSE AN INFINITE LOOP
+
+
+
+
+<-- LECTURE #15 -->
+-- useEffect DEPENDENCIES --
+It is the second parameter in useEffect hook
+
+useEffect(function, dependency-array)
+
+useEffect(function, []) -> only runs for first render
+
+Basically insert everything in the dependency array for which you want to run useEffect's function
+
+useEffect(function, [name]) -> only runs for name
+
+
+
+
+<-- LECTURE #16 -->
+-- CREATING A JSON SERVER --
+npx json-server --watch json-file-path --port 8000
+
+
+
+
+<-- LECTURE #20 -->
+-- CUSTOM HOOKS --
+Name must start with 'use'
+
+<-- LECTURE # 21 -->
+-- REACT ROUTER --
+Instead of routing requests going to the server, it goes straight to react which manipulates DOM and loads the required content
+
+It is not a default part of react and we have to install it using:
+
+npm install react-router-dom@5 -> @5 = install version 5 of React Router
+
+-- SETTING UP ROUTE --
+1. Wrap the root in <Route></Route>
+2. Decide where you want the switching to happen
+3. Add <Switch></Switch> at that part
+4. Add every possible route inside Switch 
+
+<-- LECTURE #22 -->
+-- EXACT MATCH ROUTES --
+
+<Switch>
+  <Route path="/">
+    <Home />
+  </Route>
+  <Route path="/create">
+    <Create />
+  </Route>
+</Switch>
+
+This config doesn't work because React matches the path entered in the URL one by one (like switc checking cases in C++) and stops at the first one
+
+React checks like the 'Like' keyword in mySQL
+Even a partial match results in true like in this case the match is '/'. Similarly '/c' will match with '/create'.
+
+Solution is to reverse the order or use exact prop 
+
+<Switch>
+  <Route exact path="/">
+    <Home />
+  </Route>
+  <Route path="/create">
+    <Create />
+  </Route>
+</Switch>
+
+<-- LECTURE #23 -->
+-- LINK --
+Inorder to make use of Reacts ability to intercept page requests we use
+
+<Link to="url"></Link> instead of a:href
+
+<-- LECTURE #24 -->
+-- THE PROBLEM WITH FETCH/LINK --
+When a user is directed to another page the all the hooks are stopped except the custom ones
+
+To stop them we use AbortController
+
+
+
+
+<-- LECTURE #25 -->
+-- GETTING SOMETHING FROM URL --
+For that we need to use useParam() hook to get a part of url. For example:
+
+<Route path="/blogs/:id">
+  <BlogDetails />
+</Route>
+
+Here id is dynamic. Inorder to link something to this route we need to use Link with the relevant id which we have already stored in the list of blogs i.e. blog.id
+
+<Link to="/blogs/{ id }">
+  // Code
+</Link>
+
+SIDE NOTE:
+{} => Works without ""
+${} => Works with ``
+Look at BlogList component for more details
+
+
+
+
+<-- LECTURE #27 -->
+-- CONTROLLED INPUTS --
+In this, we sync a state variable with an input field. See AddBlog.js for more details
+
+<-- LECTURE #29 -->
+-- MAKING A POST REQUEST USING FETCH --
+1. Specify the method:"POST"
+2. Specify the headers: {"Content-Type": "application/json"}
+3. Make the content JSON and specify the body:JSON.stringify(blog)
+
+This will return a promise
+
+
+
+
+<-- LECTURE #30 -->
+-- useHistory() --
+It's usage is:
+
+const obj = useHistory();
+
+obj.go(-1) -> clicking (<-) one time
+obj.go(5)  -> clicking (->) five times
+
+obj.push(url) -> go to this url like '/create'
